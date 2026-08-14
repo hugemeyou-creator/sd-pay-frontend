@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SD Pay</title>
+
+<script src="https://checkout.flutterwave.com/v3.js"></script>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f1f5f9;
+    padding-bottom:80px;
+}
+
+.container{
+    max-width:500px;
+    margin:auto;
+    padding:20px;
+}
+
+h1{
+    color:#0757d5;
+    margin-bottom:20px;
+}
+
+.balance{
+    background:#0757d5;
+    color:white;
+    padding:25px;
+    border-radius:18px;
+    margin-bottom:20px;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+}
+
+.balance h2{
+    margin:10px 0 0;
+    font-size:30px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:18px;
+    margin-bottom:20px;
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+}
+
+input,
+select{
+    width:100%;
+    padding:14px;
+    border:1px solid #ccc;
+    border-radius:10px;
+    font-size:16px;
+    margin-bottom:12px;
+    background:white;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    border:0;
+    border-radius:10px;
+    background:#0757d5;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:disabled{
+    background:#999;
+}
+
+.services{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.service{
+    background:#f5f7fa;
+    padding:20px 10px;
+    border-radius:12px;
+    text-align:center;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.service:hover{
+    background:#e7eefc;
+}
+
+.message{
+    text-align:center;
+    margin-top:12px;
+    font-size:14px;
+    line-height:1.5;
+}
+
+.success{
+    color:green;
+}
+
+.error{
+    color:red;
+}
+
+.info{
+    color:#0757d5;
+}
+
+ul{
+    padding-left:20px;
+}
+
+li{
+    padding:12px 0;
+    border-bottom:1px solid #eee;
+}
+
+.bottom{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    background:white;
+    padding:15px;
+    text-align:center;
+    box-shadow:0 -2px 10px #ccc;
+}
+
+.hidden{
+    display:none;
+}
+
+.price{
+    background:#f1f5f9;
+    padding:12px;
+    border-radius:10px;
+    margin-bottom:12px;
+    font-weight:bold;
+}
+
+.test-note{
+    background:#fff7ed;
+    color:#9a3412;
+    padding:12px;
+    border-radius:10px;
+    margin-bottom:15px;
+    font-size:13px;
+    line-height:1.5;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>SD Pay</h1>
+
+<!-- WALLET -->
+
+<div class="balance">
+
+    <div>Wallet Balance</div>
+
+    <h2 id="balance">₦0.00</h2>
+
+</div>
+
+
+<!-- ADD MONEY -->
+
+<div class="card">
+
+    <h3>💰 Add Money</h3>
+
+    <input
+        id="amount"
+        type="number"
+        min="100"
+        placeholder="Enter amount"
+    >
+
+    <button
+        id="payButton"
+        onclick="startPayment()">
+
+        + Add Money
+
+    </button>
+
+    <div
+        id="message"
+        class="message">
+    </div>
+
+</div>
+
+
+<!-- SERVICES -->
+
+<div class="card">
+
+    <h3>Services</h3>
+
+    <div class="services">
+
+        <div
+            class="service"
+            onclick="showDataForm()">
+
+            📶<br>
+            Buy Data
+
+        </div>
+
+        <div
+            class="service"
+            onclick="comingSoon('Airtime')">
+
+            📱<br>
+            Airtime
+
+        </div>
+
+        <div
+            class="service"
+            onclick="comingSoon('Cable TV')">
+
+            📺<br>
+            Cable TV
+
+        </div>
+
+        <div
+            class="service"
+            onclick="comingSoon('Electricity')">
+
+            💡<br>
+            Electricity
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- BUY DATA -->
+
+<div
+    class="card hidden"
+    id="dataCard">
+
+    <h3>📶 Buy Data</h3>
+
+    <div class="test-note">
+
+        🧪 <b>SD Pay Test Mode</b><br>
+        Data purchase is currently a wallet test.
+        Real VTU connection will be connected later.
+
+    </div>
+
+    <input
+        id="phone"
+        type="tel"
+        placeholder="Enter phone number"
+        value="08011111111"
+    >
+
+    <select id="network">
+
+        <option value="">
+            Select Network
+        </option>
+
+        <option value="1">
+            MTN
+        </option>
+
+        <option value="2">
+            Glo
+        </option>
+
+        <option value="3">
+            9mobile
+        </option>
+
+        <option value="4">
+            Airtel
+        </option>
+
+    </select>
+
+    <select
+        id="bundle"
+        onchange="showPrice()">
+
+        <option value="">
+            Select Data Bundle
+        </option>
+
+        <option value="121">
+            MTN 1GB DataShare - ₦680
+        </option>
+
+        <option value="122">
+            MTN 2GB DataShare - ₦1,360
+        </option>
+
+        <option value="22">
+            Glo 500MB - ₦215
+        </option>
+
+        <option value="23">
+            Glo 1GB - ₦430
+        </option>
+
+        <option value="28">
+            Airtel 500MB - ₦495
+        </option>
+
+        <option value="29">
+            Airtel 1GB - ₦792
+        </option>
+
+        <option value="219">
+            9mobile 100MB - ₦100.55
+        </option>
+
+        <option value="220">
+            9mobile 650MB - ₦200.10
+        </option>
+
+    </select>
+
+    <div
+        id="dataPrice"
+        class="price">
+
+        Select a bundle
+
+    </div>
+
+    <button
+        id="dataButton"
+        onclick="buyData()">
+
+        Buy Data
+
+    </button>
+
+    <div
+        id="dataMessage"
+        class="message">
+    </div>
+
+</div>
+
+
+<!-- TRANSACTIONS -->
+
+<div class="card">
+
+    <h3>Recent Transactions</h3>
+
+    <ul id="transactions">
+
+        <li>
+            No transactions yet.
+        </li>
+
+    </ul>
+
+</div>
+
+</div>
+
+
+<div class="bottom">
+
+    🏠 Home
+    &nbsp;&nbsp;&nbsp;
+
+    💰 Wallet
+    &nbsp;&nbsp;&nbsp;
+
+    👤 Profile
+
+</div>
+
+
+<script>
+
+/* =====================================
+   FLUTTERWAVE TEST PUBLIC KEY
+===================================== */
+
+const FLUTTERWAVE_PUBLIC_KEY =
+"FLWPUBK_TEST-3f985711f1d69aad4b55922f2d14e59c-X";
+
+
+/* =====================================
+   WALLET
+===================================== */
+
+let balance =
+Number(
+    localStorage.getItem("sdPayBalance")
+) || 0;
+
+
+let transactions =
+JSON.parse(
+    localStorage.getItem(
+        "sdPayTransactions"
+    ) || "[]"
+);
+
+
+/* =====================================
+   DATA PRICES
+===================================== */
+
+const planPrices = {
+
+    "121":680,
+
+    "122":1360,
+
+    "22":215,
+
+    "23":430,
+
+    "28":495,
+
+    "29":792,
+
+    "219":100.55,
+
+    "220":200.10
+
+};
+
+
+/* =====================================
+   UPDATE BALANCE
+===================================== */
+
+function updateBalance(){
+
+    document.getElementById(
+        "balance"
+    ).textContent =
+
+        "₦" +
+
+        balance.toLocaleString(
+            "en-NG",
+            {
+                minimumFractionDigits:2,
+                maximumFractionDigits:2
+            }
+        );
+
+}
+
+
+/* =====================================
+   SAVE WALLET
+===================================== */
+
+function saveWallet(){
+
+    localStorage.setItem(
+        "sdPayBalance",
+        balance
+    );
+
+    localStorage.setItem(
+        "sdPayTransactions",
+        JSON.stringify(
+            transactions
+        )
+    );
+
+}
+
+
+/* =====================================
+   TRANSACTIONS
+===================================== */
+
+function updateTransactions(){
+
+    const list =
+        document.getElementById(
+            "transactions"
+        );
+
+
+    if(transactions.length === 0){
+
+        list.innerHTML =
+            "<li>No transactions yet.</li>";
+
+        return;
+    }
+
+
+    list.innerHTML = "";
+
+
+    transactions
+        .slice()
+        .reverse()
+        .forEach(function(item){
+
+            const li =
+                document.createElement(
+                    "li"
+                );
+
+
+            li.innerHTML =
+
+                "<b>" +
+                item.type +
+                "</b><br>" +
+
+                "₦" +
+
+                Number(
+                    item.amount
+                ).toLocaleString(
+                    "en-NG",
+                    {
+                        minimumFractionDigits:2,
+                        maximumFractionDigits:2
+                    }
+                ) +
+
+                "<br><small>" +
+
+                item.date +
+
+                "</small>";
+
+
+            list.appendChild(li);
+
+        });
+
+}
+
+
+/* =====================================
+   FLUTTERWAVE PAYMENT
+===================================== */
+
+function startPayment(){
+
+    const amount =
+        Number(
+            document.getElementById(
+                "amount"
+            ).value
+        );
+
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+
+    const button =
+        document.getElementById(
+            "payButton"
+        );
+
+
+    if(!amount || amount < 100){
+
+        message.textContent =
+            "Please enter at least ₦100.";
+
+        message.className =
+            "message error";
+
+        return;
+    }
+
+
+    /*
+       CHECK WHETHER FLUTTERWAVE
+       HAS LOADED
+    */
+
+    if(
+        typeof FlutterwaveCheckout !==
+        "function"
+    ){
+
+        message.textContent =
+            "Flutterwave is not loaded in this preview.";
+
+        message.className =
+            "message error";
+
+        return;
+    }
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "Opening Flutterwave...";
+
+
+    try{
+
+        FlutterwaveCheckout({
+
+            public_key:
+                FLUTTERWAVE_PUBLIC_KEY,
+
+
+            tx_ref:
+                "SDPAY-" +
+                Date.now(),
+
+
+            amount:
+                amount,
+
+
+            currency:
+                "NGN",
+
+
+            payment_options:
+                "card,banktransfer,ussd",
+
+
+            customer:{
+
+                email:
+                    "test@sdpay.com",
+
+                phone_number:
+                    "08000000000",
+
+                name:
+                    "SD Pay Test User"
+
+            },
+
+
+            customizations:{
+
+                title:
+                    "SD Pay",
+
+                description:
+                    "SD Pay Test Wallet Funding",
+
+                logo:
+                    ""
+
+            },
+
+
+            callback:function(response){
+
+                console.log(
+                    "Flutterwave response:",
+                    response
+                );
+
+
+                if(
+                    response &&
+                    (
+                        response.status ===
+                        "successful" ||
+
+                        response.status ===
+                        "completed"
+                    )
+                ){
+
+                    /*
+                       TEST MODE ONLY
+
+                       Wallet is credited after
+                       successful Flutterwave test
+                       callback.
+
+                       Real production wallet
+                       crediting will use the
+                       secure backend.
+                    */
+
+                    balance += amount;
+
+
+                    transactions.push({
+
+                        type:
+                            "Wallet Deposit",
+
+                        amount:
+                            amount,
+
+                        date:
+                            new Date()
+                                .toLocaleString(),
+
+                        reference:
+                            response.transaction_id ||
+                            "TEST"
+
+                    });
+
+
+                    saveWallet();
+
+                    updateBalance();
+
+                    updateTransactions();
+
+
+                    document.getElementById(
+                        "amount"
+                    ).value = "";
+
+
+                    message.textContent =
+                        "Payment successful! ₦" +
+
+                        amount.toLocaleString(
+                            "en-NG"
+                        ) +
+
+                        " added to your wallet.";
+
+
+                    message.className =
+                        "message success";
+
+                }
+
+                else{
+
+                    message.textContent =
+                        "Payment was not successful.";
+
+                    message.className =
+                        "message error";
+
+                }
+
+
+                button.disabled = false;
+
+                button.textContent =
+                    "+ Add Money";
+
+            },
+
+
+            onclose:function(){
+
+                button.disabled = false;
+
+                button.textContent =
+                    "+ Add Money";
+
+            }
+
+        });
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Flutterwave error:",
+            error
+        );
+
+
+        message.textContent =
+            "Flutterwave could not open. Please try again.";
+
+        message.className =
+            "message error";
+
+
+        button.disabled = false;
+
+        button.textContent =
+            "+ Add Money";
+
+    }
+
+}
+
+
+/* =====================================
+   SHOW DATA FORM
+===================================== */
+
+function showDataForm(){
+
+    const card =
+        document.getElementById(
+            "dataCard"
+        );
+
+
+    card.classList.remove(
+        "hidden"
+    );
+
+
+    card.scrollIntoView({
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =====================================
+   SHOW DATA PRICE
+===================================== */
+
+function showPrice(){
+
+    const plan =
+        document.getElementById(
+            "bundle"
+        ).value;
+
+
+    const price =
+        document.getElementById(
+            "dataPrice"
+        );
+
+
+    if(!plan){
+
+        price.textContent =
+            "Select a bundle";
+
+        return;
+    }
+
+
+    price.textContent =
+        "Price: ₦" +
+
+        Number(
+            planPrices[plan]
+        ).toLocaleString(
+            "en-NG",
+            {
+                minimumFractionDigits:2,
+                maximumFractionDigits:2
+            }
+        );
+
+}
+
+
+/* =====================================
+   TEST BUY DATA
+===================================== */
+
+function buyData(){
+
+    const phone =
+        document.getElementById(
+            "phone"
+        ).value.trim();
+
+
+    const network =
+        document.getElementById(
+            "network"
+        ).value;
+
+
+    const plan =
+        document.getElementById(
+            "bundle"
+        ).value;
+
+
+    const message =
+        document.getElementById(
+            "dataMessage"
+        );
+
+
+    const button =
+        document.getElementById(
+            "dataButton"
+        );
+
+
+    const amount =
+        Number(
+            planPrices[plan]
+        );
+
+
+    if(!phone){
+
+        message.textContent =
+            "Please enter a phone number.";
+
+        message.className =
+            "message error";
+
+        return;
+    }
+
+
+    if(!network){
+
+        message.textContent =
+            "Please select a network.";
+
+        message.className =
+            "message error";
+
+        return;
+    }
+
+
+    if(!plan){
+
+        message.textContent =
+            "Please select a data bundle.";
+
+        message.className =
+            "message error";
+
+        return;
+    }
+
+
+    if(balance < amount){
+
+        message.textContent =
+            "Insufficient wallet balance.";
+
+        message.className =
+            "message error";
+
+        return;
+    }
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "Processing...";
+
+
+    message.textContent =
+        "Running SD Pay test...";
+
+    message.className =
+        "message info";
+
+
+    setTimeout(function(){
+
+        balance -= amount;
+
+
+        transactions.push({
+
+            type:
+                "Test Data Purchase",
+
+            amount:
+                amount,
+
+            date:
+                new Date()
+                    .toLocaleString(),
+
+            reference:
+                "SDPAY-DATA-" +
+                Date.now()
+
+        });
+
+
+        saveWallet();
+
+        updateBalance();
+
+        updateTransactions();
+
+
+        message.textContent =
+            "Test purchase successful! ₦" +
+
+            amount.toLocaleString(
+                "en-NG",
+                {
+                    minimumFractionDigits:2,
+                    maximumFractionDigits:2
+                }
+            ) +
+
+            " deducted from your wallet.";
+
+        message.className =
+            "message success";
+
+
+        button.disabled = false;
+
+        button.textContent =
+            "Buy Data";
+
+    },1500);
+
+}
+
+
+/* =====================================
+   OTHER SERVICES
+===================================== */
+
+function comingSoon(service){
+
+    alert(
+        service +
+        " will be connected next."
+    );
+
+}
+
+  /* =====================================
+   START APP
+===================================== */
+
+updateBalance();
+
+updateTransactions();
+
+</script>
+
+</body>
+</html>
