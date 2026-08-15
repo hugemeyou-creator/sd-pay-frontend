@@ -66,6 +66,39 @@
       margin-top: 0;
     }
 
+    .transaction {
+      border: 1px solid #e5e7eb;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .transaction strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .transaction small {
+      color: #6b7280;
+      display: block;
+      margin-top: 4px;
+    }
+
+    .success {
+      color: green;
+      font-weight: bold;
+    }
+
+    .failed {
+      color: red;
+      font-weight: bold;
+    }
+
+    .pending {
+      color: orange;
+      font-weight: bold;
+    }
+
     .empty {
       color: #6b7280;
       text-align: center;
@@ -121,7 +154,7 @@
     <h2>Transactions</h2>
 
     <div class="empty" id="transactionList">
-      No transactions loaded yet.
+      Loading transactions...
     </div>
 
     <button onclick="loadTransactions()">
@@ -132,26 +165,117 @@
 
   <script>
 
-    function loadTransactions() {
+    const BACKEND_URL =
+      "https://sd-pay-backend.onrender.com";
 
-      document.getElementById("transactionList").innerHTML =
-        "Connecting to SD Pay backend...";
 
-      /*
-        We will connect this section to
-        your Render backend in the next step.
-      */
+    // ===============================
+    // LOAD STATISTICS
+    // ===============================
 
-      setTimeout(function() {
+    async function loadStats() {
 
-        document.getElementById("transactionList").innerHTML =
-          "Dashboard connection will be added next.";
+      try {
 
-      }, 1000);
+        const response =
+          await fetch(
+            BACKEND_URL +
+            "/api/admin/stats"
+          );
+
+        const data =
+          await response.json();
+
+
+        if (!data.success) {
+
+          throw new Error(
+            "Unable to load statistics"
+          );
+
+        }
+
+
+        document.getElementById(
+          "totalPayments"
+        ).textContent =
+          data.stats.total || 0;
+
+
+        document.getElementById(
+          "successfulPayments"
+        ).textContent =
+          data.stats.successful || 0;
+
+
+        document.getElementById(
+          "pendingPayments"
+        ).textContent =
+          data.stats.pending || 0;
+
+
+        document.getElementById(
+          "failedPayments"
+        ).textContent =
+          data.stats.failed || 0;
+
+
+      } catch (error) {
+
+        console.error(
+          "Stats error:",
+          error
+        );
+
+      }
 
     }
 
-  </script>
 
-</body>
-</html>
+    // ===============================
+    // LOAD TRANSACTIONS
+    // ===============================
+
+    async function loadTransactions() {
+
+      const list =
+        document.getElementById(
+          "transactionList"
+        );
+
+
+      list.innerHTML =
+        "Loading transactions...";
+
+
+      try {
+
+        const response =
+          await fetch(
+            BACKEND_URL +
+            "/api/admin/payments"
+          );
+
+
+        const data =
+          await response.json();
+
+
+        if (!data.success) {
+
+          throw new Error(
+            "Unable to load payments"
+          );
+
+        }
+
+
+        if (
+          !data.payments ||
+          data.payments.length === 0
+        ) {
+
+          list.innerHTML =
+            "No transactions found.";
+
+         
