@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SD Pay</title>
 
-<script src="https://checkout.flutterwave.com/v3.js"></script>
+<title>SD Pay</title>
 
 <style>
 *{
@@ -15,63 +14,54 @@
 body{
     margin:0;
     font-family:Arial,sans-serif;
-    background:#f4f7fb;
-    color:#222;
+    background:#f3f6fb;
 }
 
 header{
-    background:#0b5ed7;
+    background:#1765d1;
     color:white;
-    padding:20px;
     text-align:center;
-}
-
-header h1{
-    margin:0;
+    padding:35px 10px;
+    font-size:28px;
 }
 
 .container{
-    max-width:500px;
-    margin:25px auto;
-    padding:20px;
+    max-width:600px;
+    margin:60px auto;
+    background:white;
+    padding:40px;
+    border-radius:25px;
+    box-shadow:0 5px 25px rgba(0,0,0,.12);
 }
 
-.card{
-    background:white;
-    padding:20px;
-    border-radius:12px;
-    box-shadow:0 3px 12px rgba(0,0,0,0.1);
+h1{
+    margin-top:0;
+    font-size:40px;
 }
 
 input{
     width:100%;
-    padding:14px;
-    margin:8px 0;
+    padding:18px;
+    margin:10px 0;
+    font-size:18px;
     border:1px solid #ccc;
-    border-radius:8px;
-    font-size:16px;
+    border-radius:15px;
 }
 
 button{
     width:100%;
-    padding:14px;
-    margin-top:10px;
-    border:0;
-    border-radius:8px;
-    background:#0b5ed7;
+    padding:20px;
+    margin-top:15px;
+    background:#1765d1;
     color:white;
-    font-size:16px;
+    border:0;
+    border-radius:15px;
+    font-size:20px;
     font-weight:bold;
 }
 
 button:active{
     opacity:.8;
-}
-
-#message{
-    margin-top:15px;
-    text-align:center;
-    font-weight:bold;
 }
 </style>
 </head>
@@ -79,141 +69,93 @@ button:active{
 <body>
 
 <header>
-    <h1>SD Pay</h1>
-    <p>Simple & Secure Payment</p>
+    Simple & Secure Payment
 </header>
 
 <div class="container">
 
-    <div class="card">
+<h1>Make Payment</h1>
 
-        <h2>Make Payment</h2>
+<form
+    method="POST"
+    action="https://checkout.flutterwave.com/v3/hosted/pay"
+    onsubmit="createReference()"
+>
 
-        <input
-            type="text"
-            id="name"
-            placeholder="Full Name"
-        >
+<input
+    type="text"
+    name="customer[name]"
+    placeholder="Full Name"
+    required
+>
 
-        <input
-            type="email"
-            id="email"
-            placeholder="Email Address"
-        >
+<input
+    type="email"
+    name="customer[email]"
+    placeholder="Email"
+    required
+>
 
-        <input
-            type="tel"
-            id="phone"
-            placeholder="Phone Number"
-            inputmode="numeric"
-        >
+<input
+    type="tel"
+    name="customer[phone_number]"
+    placeholder="Phone Number"
+    required
+>
 
-        <input
-            type="number"
-            id="amount"
-            placeholder="Amount (NGN)"
-            min="1"
-        >
+<input
+    type="number"
+    name="amount"
+    placeholder="Amount (NGN)"
+    min="1"
+    required
+>
 
-        <button type="button" onclick="makePayment()">
-            Pay Now
-        </button>
+<input
+    type="hidden"
+    name="public_key"
+    value="PASTE_YOUR_PUBLIC_KEY_HERE"
+>
 
-        <div id="message"></div>
+<input
+    type="hidden"
+    name="tx_ref"
+    id="tx_ref"
+>
 
-    </div>
+<input
+    type="hidden"
+    name="currency"
+    value="NGN"
+>
+
+<input
+    type="hidden"
+    name="payment_options"
+    value="card,banktransfer,ussd"
+>
+
+<input
+    type="hidden"
+    name="redirect_url"
+    value="https://hugemeyou-creator.github.io/sd-pay-frontend/"
+>
+
+<button type="submit">
+    Pay Now
+</button>
+
+</form>
 
 </div>
 
 <script>
+function createReference(){
 
-function makePayment(){
-
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const amount = document.getElementById("amount").value;
-
-    if(!name || !email || !phone || !amount){
-
-        document.getElementById("message").innerText =
-            "Please fill in all fields.";
-
-        return;
-    }
-
-    FlutterwaveCheckout({
-
-        public_key:"FLWPUBK_TEST-3f985711f1d69aad4b55922f2d14e59c-X",
-
-        tx_ref: "SDPAY-" + Date.now(),
-
-        amount: amount,
-
-        currency: "NGN",
-
-        payment_options: "card,banktransfer,ussd",
-
-        customer: {
-            email: email,
-            phone_number: phone,
-            name: name
-        },
-
-        customizations: {
-            title: "SD Pay",
-            description: "SD Pay Test Payment",
-            logo: ""
-        },
-
-    
-
-   callback: async function(payment){
-
-    const transactionId = payment.transaction_id;
-
-    document.getElementById("message").innerText =
-        "Verifying payment...";
-
-    try {
-
-        const response = await fetch(
-            "https://sd-pay-backend.onrender.com/api/verify/" + transactionId
-        );
-
-        const result = await response.json();
-
-        if(result.success){
-
-            document.getElementById("message").innerText =
-                "Payment verified successfully. Reference: " +
-                transactionId;
-
-        }else{
-
-            document.getElementById("message").innerText =
-                "Payment verification failed.";
-
-        }
-
-    }catch(error){
-
-        console.error(error);
-
-        document.getElementById("message").innerText =
-            "Unable to verify payment.";
-
-    },
-onclose: function(){
-
-    document.getElementById("message").innerText =
-        "Payment window closed.";
+    document.getElementById("tx_ref").value =
+        "SDPAY-" + Date.now();
 
 }
-
-    });
-}
-
 </script>
 
 </body>
