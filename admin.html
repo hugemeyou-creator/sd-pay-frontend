@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SD Pay Admin</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 15px;
+    }
+
+    .header {
+      background: #111827;
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .header p {
+      margin: 6px 0 0;
+      color: #d1d5db;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .card {
+      background: white;
+      padding: 18px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .number {
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    .transactions {
+      background: white;
+      margin-top: 15px;
+      padding: 18px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .transactions h2 {
+      margin-top: 0;
+    }
+
+    .empty {
+      color: #6b7280;
+      text-align: center;
+      padding: 25px 5px;
+    }
+
+    button {
+      width: 100%;
+      padding: 13px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 8px;
+      background: #111827;
+      color: white;
+      font-size: 16px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <h1>SD Pay Admin</h1>
+    <p>Payment Management Dashboard</p>
+  </div>
+
+  <div class="cards">
+
+    <div class="card">
+      <h3>Total Payments</h3>
+      <div class="number" id="totalPayments">0</div>
+    </div>
+
+    <div class="card">
+      <h3>Successful</h3>
+      <div class="number" id="successfulPayments">0</div>
+    </div>
+
+    <div class="card">
+      <h3>Pending</h3>
+      <div class="number" id="pendingPayments">0</div>
+    </div>
+
+    <div class="card">
+      <h3>Failed</h3>
+      <div class="number" id="failedPayments">0</div>
+    </div>
+
+  </div>
+
+  <div class="transactions">
+
+    <h2>Transactions</h2>
+
+    <div class="empty" id="transactionList">
+      No transactions loaded yet.
+    </div>
+
+    <button onclick="loadTransactions()">
+      Refresh Transactions
+    </button>
+
+  </div>
+
+  <script>
+
+    function loadTransactions() {
+
+      document.getElementById("transactionList").innerHTML =
+        "Connecting to SD Pay backend...";
+
+      /*
+        We will connect this section to
+        your Render backend in the next step.
+      */
+
+      setTimeout(function() {
+
+        document.getElementById("transactionList").innerHTML =
+          "Dashboard connection will be added next.";
+
+      }, 1000);
+
+    }
+
+  </script>
+
+</body>
+</html>
