@@ -11,11 +11,7 @@
     box-sizing:border-box;
 }
 
-<input
-    type="hidden"
-    name="public_key"
-    value="FLWPUBK_TEST-3f985711f1d69aad4b55922f2d14e59c-X"
->body{
+body{
     margin:0;
     font-family:Arial,sans-serif;
     background:#f3f6fb;
@@ -25,47 +21,54 @@ header{
     background:#1765d1;
     color:white;
     text-align:center;
-    padding:35px 10px;
+    padding:30px 10px;
     font-size:28px;
+    font-weight:bold;
 }
 
 .container{
-    max-width:600px;
-    margin:60px auto;
+    max-width:500px;
+    margin:30px auto;
     background:white;
-    padding:40px;
-    border-radius:25px;
-    box-shadow:0 5px 25px rgba(0,0,0,.12);
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.1);
 }
 
 h1{
-    margin-top:0;
-    font-size:40px;
+    text-align:center;
+    color:#1765d1;
 }
 
 input{
     width:100%;
-    padding:18px;
+    padding:14px;
     margin:10px 0;
-    font-size:18px;
     border:1px solid #ccc;
-    border-radius:15px;
+    border-radius:8px;
+    font-size:16px;
 }
 
 button{
     width:100%;
-    padding:20px;
+    padding:15px;
     margin-top:15px;
     background:#1765d1;
     color:white;
-    border:0;
-    border-radius:15px;
-    font-size:20px;
+    border:none;
+    border-radius:8px;
+    font-size:18px;
     font-weight:bold;
 }
 
 button:active{
     opacity:.8;
+}
+
+#message{
+    margin-top:15px;
+    text-align:center;
+    font-weight:bold;
 }
 </style>
 </head>
@@ -78,85 +81,126 @@ button:active{
 
 <div class="container">
 
-<h1>Make Payment</h1>
+    <h1>Make Payment</h1>
 
-<form
-    method="POST"
-    action="https://checkout.flutterwave.com/v3/hosted/pay"
-    onsubmit="createReference()"
->
+    <form id="paymentForm">
 
-<input
-    type="text"
-    name="customer[name]"
-    placeholder="Full Name"
-    required
->
+        <input
+            type="text"
+            id="name"
+            placeholder="Full Name"
+            required
+        >
 
-<input
-    type="email"
-    name="customer[email]"
-    placeholder="Email"
-    required
->
+        <input
+            type="email"
+            id="email"
+            placeholder="Email Address"
+            required
+        >
 
-<input
-    type="tel"
-    name="customer[phone_number]"
-    placeholder="Phone Number"
-    required
->
+        <input
+            type="tel"
+            id="phone"
+            placeholder="Phone Number"
+            inputmode="numeric"
+            required
+        >
 
-<input
-    type="number"
-    name="amount"
-    placeholder="Amount (NGN)"
-    min="1"
-    required
->
+        <input
+            type="number"
+            id="amount"
+            value="100"
+            min="1"
+            placeholder="Amount"
+            required
+        >
 
+        <button type="submit" id="payButton">
+            Pay Now
+        </button>
 
->
+    </form>
 
-<input
-    type="hidden"
-    name="tx_ref"
-    id="tx_ref"
->
-
-<input
-    type="hidden"
-    name="currency"
-    value="NGN"
->
-
-<input
-    type="hidden"
-    name="payment_options"
-    value="card,banktransfer,ussd"
->
-
-<input
-    type="hidden"
-    name="redirect_url"
-    value="https://hugemeyou-creator.github.io/sd-pay-frontend/"
->
-
-<button type="submit">
-    Pay Now
-</button>
-
-</form>
+    <div id="message"></div>
 
 </div>
 
 <script>
-function createReference(){
 
-    document.getElementById("tx_ref").value =
-        "SDPAY-" + Date.now();
+const BACKEND_URL = "https://sd-pay-backend.onrender.com/api/pay";
 
-}
+document.getElementById("paymentForm").addEventListener("submit", async function(e){
+
+    e.preventDefault();
+
+    const button = document.getElementById("payButton");
+    const message = document.getElementById("message");
+
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const amount = document.getElementById("amount").value;
+
+    button.disabled = true;
+    button.textContent = "Processing...";
+    message.textContent = "Connecting to payment system...";
+
+    try{
+
+        const response = await fetch(BACKEND_URL, {
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                name:name,
+                email:email,
+                phone:phone,
+                amount:Number(amount)
+            })
+        });
+
+        const data = await response.json();
+
+        console.log("Backend response:", data);
+
+        if(!response.ok){
+            throw new Error(data.message || "Payment request failed");
+        }
+
+        const paymentLink =
+            data.link ||
+            data.payment_link ||
+            data.data?.link ||
+            data.data?.data?.link;
+
+        if(paymentLink){
+
+            message.textContent = "Opening payment...";
+
+            window.location.href = paymentLink;
+
+        }else{
+
+            throw new Error(
+                data.message || "Payment link was not returned by the server"
+            );
+        }
+
+    }catch(error){
+
+        console.error(error);
+
+        message.textContent =
+            "Payment error: " + error.message;
+
+        button.disabled = false;
+        button.textContent = "Pay Now";
+    }
+
+});
+
 </script>
 
 </body>
