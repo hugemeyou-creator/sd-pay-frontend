@@ -166,20 +166,50 @@ function makePayment(){
             logo: ""
         },
 
-        callback: function(payment){
+    
+
+   callback: async function(payment){
+
+    const transactionId = payment.transaction_id;
+
+    document.getElementById("message").innerText =
+        "Verifying payment...";
+
+    try {
+
+        const response = await fetch(
+            "https://sd-pay-backend.onrender.com/api/verify/" + transactionId
+        );
+
+        const result = await response.json();
+
+        if(result.success){
 
             document.getElementById("message").innerText =
-                "Payment completed. Reference: " +
-                payment.transaction_id;
+                "Payment verified successfully. Reference: " +
+                transactionId;
 
-            console.log(payment);
-        },
-
-        onclose: function(){
+        }else{
 
             document.getElementById("message").innerText =
-                "Payment window closed.";
+                "Payment verification failed.";
+
         }
+
+    }catch(error){
+
+        console.error(error);
+
+        document.getElementById("message").innerText =
+            "Unable to verify payment.";
+
+    },
+onclose: function(){
+
+    document.getElementById("message").innerText =
+        "Payment window closed.";
+
+}
 
     });
 }
