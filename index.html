@@ -61,14 +61,36 @@ button{
     font-weight:bold;
 }
 
-button:active{
-    opacity:.8;
+button:disabled{
+    opacity:.6;
 }
 
 #message{
-    margin-top:15px;
     text-align:center;
+    margin:20px 0;
+    padding:15px;
+    border-radius:8px;
+    font-size:18px;
     font-weight:bold;
+}
+
+.success{
+    background:#e8f7ee;
+    color:#16803c;
+}
+
+.failed{
+    background:#fdeaea;
+    color:#c62828;
+}
+
+.info{
+    background:#eef4ff;
+    color:#1765d1;
+}
+
+.hidden{
+    display:none;
 }
 </style>
 </head>
@@ -80,6 +102,8 @@ button:active{
 </header>
 
 <div class="container">
+
+    <div id="message" class="hidden"></div>
 
     <h1>Make Payment</h1>
 
@@ -122,52 +146,115 @@ button:active{
 
     </form>
 
-    <div id="message"></div>
-
 </div>
 
 <script>
 
-const BACKEND_URL = "https://sd-pay-backend.onrender.com/api/pay";
+const BACKEND_URL =
+    "https://sd-pay-backend.onrender.com/api/pay";
 
-document.getElementById("paymentForm").addEventListener("submit", async function(e){
+const message =
+    document.getElementById("message");
+
+const form =
+    document.getElementById("paymentForm");
+
+
+/* Check payment result after returning from Flutterwave */
+
+const params =
+    new URLSearchParams(window.location.search);
+
+const payment =
+    params.get("payment");
+
+
+if(payment === "success"){
+
+    message.className = "success";
+    message.textContent =
+        "✅ Payment Successful!";
+
+    message.classList.remove("hidden");
+
+}
+
+else if(payment === "failed"){
+
+    message.className = "failed";
+    message.textContent =
+        "❌ Payment Failed. Please try again.";
+
+    message.classList.remove("hidden");
+
+}
+
+
+/* Start payment */
+
+form.addEventListener("submit", async function(e){
 
     e.preventDefault();
 
-    const button = document.getElementById("payButton");
-    const message = document.getElementById("message");
+    const button =
+        document.getElementById("payButton");
 
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const amount = document.getElementById("amount").value;
+    const name =
+        document.getElementById("name").value.trim();
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const phone =
+        document.getElementById("phone").value.trim();
+
+    const amount =
+        document.getElementById("amount").value;
+
 
     button.disabled = true;
     button.textContent = "Processing...";
-    message.textContent = "Connecting to payment system...";
+
 
     try{
 
-        const response = await fetch(BACKEND_URL, {
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify({
-                name:name,
-                email:email,
-                phone:phone,
-                amount:Number(amount)
-            })
-        });
+        const response =
+            await fetch(BACKEND_URL, {
 
-        const data = await response.json();
+                method:"POST",
+
+                headers:{
+                    "Content-Type":"application/json"
+                },
+
+                body:JSON.stringify({
+
+                    name:name,
+                    email:email,
+                    phone:phone,
+                    amount:Number(amount)
+
+                })
+
+            });
+
+
+        const data =
+            await response.json();
+
 
         console.log("Backend response:", data);
 
+
         if(!response.ok){
-            throw new Error(data.message || "Payment request failed");
+
+            throw new Error(
+                data.message ||
+                "Payment request failed"
+            );
+
         }
+
 
         const paymentLink =
             data.link ||
@@ -175,28 +262,43 @@ document.getElementById("paymentForm").addEventListener("submit", async function
             data.data?.link ||
             data.data?.data?.link;
 
+
         if(paymentLink){
 
-            message.textContent = "Opening payment...";
+            window.location.href =
+                paymentLink;
 
-            window.location.href = paymentLink;
-
-        }else{
-
-            throw new Error(
-                data.message || "Payment link was not returned by the server"
-            );
         }
 
-    }catch(error){
+        else{
+
+            throw new Error(
+                data.message ||
+                "Payment link was not returned"
+            );
+
+        }
+
+
+    }
+
+    catch(error){
 
         console.error(error);
 
+        message.className = "failed";
+
         message.textContent =
-            "Payment error: " + error.message;
+            "Payment error: " +
+            error.message;
+
+        message.classList.remove("hidden");
 
         button.disabled = false;
-        button.textContent = "Pay Now";
+
+        button.textContent =
+            "Pay Now";
+
     }
 
 });
