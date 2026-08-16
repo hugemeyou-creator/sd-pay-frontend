@@ -259,14 +259,14 @@
 <script>
 
   /* =========================
-     SD PAY BACKEND
+     CORRECT SD PAY BACKEND
   ========================= */
 
-  const API_URL = "https://sd-pay-backend.onrender.com";
+  const API_URL = "https://sd-pay-backend-1.onrender.com";
 
 
   /* =========================
-     LOGIN
+     LOGIN VARIABLES
   ========================= */
 
   let username = "";
@@ -275,6 +275,10 @@
 
   let allTransactions = [];
 
+
+  /* =========================
+     LOGIN PAGE
+  ========================= */
 
   function showLogin() {
 
@@ -312,6 +316,10 @@
   }
 
 
+  /* =========================
+     LOGIN
+  ========================= */
+
   async function login() {
 
     username = document.getElementById("username").value.trim();
@@ -342,16 +350,14 @@
       );
 
       if (!response.ok) {
-
         throw new Error("Invalid login details.");
-
       }
 
       showDashboard();
 
-      loadStats();
+      await loadStats();
 
-      loadTransactions();
+      await loadTransactions();
 
     } catch (error) {
 
@@ -522,13 +528,6 @@
       }
 
       const data = await response.json();
-
-      /*
-        Supports either:
-        [ ... ]
-        or
-        { payments: [ ... ] }
-      */
 
       if (Array.isArray(data)) {
         allTransactions = data;
@@ -715,16 +714,16 @@
 
 
   /* =========================
-     SEARCH
+     SEARCH TRANSACTIONS
   ========================= */
 
   function searchTransactions() {
 
-    const searchBox =
+    const searchInput =
       document.getElementById("searchInput");
 
     const search =
-      searchBox.value.trim().toLowerCase();
+      searchInput.value.trim().toLowerCase();
 
 
     if (!search) {
@@ -741,52 +740,44 @@
         const searchableText = [
 
           transaction.id,
-
           transaction.transaction_id,
 
           transaction.reference,
-
           transaction.tx_ref,
-
           transaction.ref,
 
           transaction.flutterwave_id,
-
           transaction.flutterwaveId,
-
           transaction.flw_id,
 
           transaction.customer_name,
-
           transaction.customer,
-
           transaction.name,
 
           transaction.email,
 
           transaction.phone,
-
           transaction.customer_phone,
 
           transaction.amount,
-
           transaction.currency,
-
           transaction.status,
 
           transaction.created_at,
-
           transaction.createdAt,
-
           transaction.date
 
         ]
-        .filter(value => value !== undefined && value !== null)
+        .filter(value =>
+          value !== undefined &&
+          value !== null
+        )
         .join(" ")
         .toLowerCase();
 
 
         return searchableText.includes(search);
+
       });
 
 
@@ -797,7 +788,7 @@
 
       document.getElementById("transactions").innerHTML = `
         <div class="no-results">
-          No transaction matches "${escapeHTML(searchBox.value)}".
+          No transaction matches "${escapeHTML(searchInput.value)}".
         </div>
       `;
     }
@@ -845,7 +836,7 @@
 
 
   /* =========================
-     FORMAT DATE
+     DATE FORMAT
   ========================= */
 
   function formatDate(value) {
@@ -872,7 +863,7 @@
 
 
   /* =========================
-     SECURITY
+     HTML SECURITY
   ========================= */
 
   function escapeHTML(value) {
