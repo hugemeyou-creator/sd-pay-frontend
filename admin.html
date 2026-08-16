@@ -1,281 +1,420 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>SD Pay Admin</title>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
       background: #f4f6f8;
-      margin: 0;
-      padding: 15px;
+      color: #111827;
+    }
+
+    .container {
+      width: 94%;
+      max-width: 900px;
+      margin: 20px auto;
     }
 
     .header {
       background: #111827;
       color: white;
-      padding: 20px;
-      border-radius: 12px;
-      margin-bottom: 15px;
+      padding: 30px 25px;
+      border-radius: 22px;
+      margin-bottom: 25px;
     }
 
     .header h1 {
-      margin: 0;
-      font-size: 24px;
+      margin: 0 0 10px;
+      font-size: 32px;
     }
 
     .header p {
-      margin: 6px 0 0;
+      margin: 0;
+      font-size: 20px;
       color: #d1d5db;
     }
 
-    .cards {
+    .stats {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-bottom: 25px;
     }
 
     .card {
       background: white;
-      padding: 18px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
     }
 
     .card h3 {
-      margin: 0 0 10px;
-      font-size: 14px;
+      margin: 0 0 15px;
       color: #6b7280;
+      font-size: 18px;
     }
 
     .number {
-      font-size: 25px;
+      font-size: 40px;
       font-weight: bold;
     }
 
     .transactions {
       background: white;
-      margin-top: 15px;
-      padding: 18px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
     }
 
     .transactions h2 {
       margin-top: 0;
+      font-size: 28px;
     }
 
     .transaction {
       border: 1px solid #e5e7eb;
-      padding: 12px;
-      border-radius: 8px;
-      margin-bottom: 10px;
+      border-radius: 15px;
+      padding: 18px;
+      margin-bottom: 15px;
+      background: #fafafa;
     }
 
-    .transaction strong {
-      display: block;
-      margin-bottom: 5px;
+    .transaction p {
+      margin: 8px 0;
+      font-size: 15px;
+      word-break: break-word;
     }
 
-    .transaction small {
+    .status {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      background: #dcfce7;
+      color: #166534;
+      font-weight: bold;
+      text-transform: capitalize;
+    }
+
+    .refresh {
+      width: 100%;
+      border: none;
+      background: #111827;
+      color: white;
+      padding: 18px;
+      border-radius: 15px;
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+    .refresh:active {
+      opacity: 0.8;
+    }
+
+    .message {
+      text-align: center;
+      padding: 25px 10px;
       color: #6b7280;
-      display: block;
-      margin-top: 4px;
+      font-size: 17px;
+    }
+
+    .error {
+      background: #fee2e2;
+      color: #991b1b;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      word-break: break-word;
     }
 
     .success {
-      color: green;
-      font-weight: bold;
+      background: #dcfce7;
+      color: #166534;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 15px;
     }
 
-    .failed {
-      color: red;
-      font-weight: bold;
-    }
+    @media (max-width: 600px) {
+      .stats {
+        grid-template-columns: 1fr 1fr;
+      }
 
-    .pending {
-      color: orange;
-      font-weight: bold;
-    }
+      .header h1 {
+        font-size: 28px;
+      }
 
-    .empty {
-      color: #6b7280;
-      text-align: center;
-      padding: 25px 5px;
-    }
-
-    button {
-      width: 100%;
-      padding: 13px;
-      margin-top: 15px;
-      border: none;
-      border-radius: 8px;
-      background: #111827;
-      color: white;
-      font-size: 16px;
+      .number {
+        font-size: 34px;
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <div class="header">
-    <h1>SD Pay Admin</h1>
-    <p>Payment Management Dashboard</p>
-  </div>
+  <div class="container">
 
-  <div class="cards">
-
-    <div class="card">
-      <h3>Total Payments</h3>
-      <div class="number" id="totalPayments">0</div>
+    <div class="header">
+      <h1>SD Pay Admin</h1>
+      <p>Payment Management Dashboard</p>
     </div>
 
-    <div class="card">
-      <h3>Successful</h3>
-      <div class="number" id="successfulPayments">0</div>
+    <div class="stats">
+
+      <div class="card">
+        <h3>Total Payments</h3>
+        <div class="number" id="total">0</div>
+      </div>
+
+      <div class="card">
+        <h3>Successful</h3>
+        <div class="number" id="successful">0</div>
+      </div>
+
+      <div class="card">
+        <h3>Pending</h3>
+        <div class="number" id="pending">0</div>
+      </div>
+
+      <div class="card">
+        <h3>Failed</h3>
+        <div class="number" id="failed">0</div>
+      </div>
+
     </div>
 
-    <div class="card">
-      <h3>Pending</h3>
-      <div class="number" id="pendingPayments">0</div>
+    <div class="transactions">
+
+      <h2>Transactions</h2>
+
+      <div id="message" class="message">
+        Loading transactions...
+      </div>
+
+      <div id="transactionsList"></div>
+
+      <button class="refresh" onclick="loadDashboard()">
+        Refresh Transactions
+      </button>
+
     </div>
-
-    <div class="card">
-      <h3>Failed</h3>
-      <div class="number" id="failedPayments">0</div>
-    </div>
-
-  </div>
-
-  <div class="transactions">
-
-    <h2>Transactions</h2>
-
-    <div class="empty" id="transactionList">
-      Loading transactions...
-    </div>
-
-    <button onclick="loadTransactions()">
-      Refresh Transactions
-    </button>
 
   </div>
 
   <script>
 
-    const BACKEND_URL =
+    const API_BASE =
       "https://sd-pay-backend.onrender.com";
 
+    async function loadDashboard() {
 
-    // ===============================
-    // LOAD STATISTICS
-    // ===============================
+      const message = document.getElementById("message");
+      const transactionsList =
+        document.getElementById("transactionsList");
 
-    async function loadStats() {
+      message.className = "message";
+      message.innerHTML = "Loading transactions...";
+      transactionsList.innerHTML = "";
 
       try {
 
-        const response =
-          await fetch(
-            BACKEND_URL +
-            "/api/admin/stats"
-          );
+        const statsResponse = await fetch(
+          API_BASE + "/api/admin/stats",
+          {
+            method: "GET",
+            cache: "no-store"
+          }
+        );
 
-        const data =
-          await response.json();
-
-
-        if (!data.success) {
-
+        if (!statsResponse.ok) {
           throw new Error(
-            "Unable to load statistics"
+            "Stats request failed: HTTP " +
+            statsResponse.status
           );
+        }
 
+        const statsData = await statsResponse.json();
+
+        if (!statsData.success) {
+          throw new Error("Stats API returned an error.");
+        }
+
+        const stats = statsData.stats;
+
+        document.getElementById("total").textContent =
+          stats.total || 0;
+
+        document.getElementById("successful").textContent =
+          stats.successful || 0;
+
+        document.getElementById("pending").textContent =
+          stats.pending || 0;
+
+        document.getElementById("failed").textContent =
+          stats.failed || 0;
+
+
+        const paymentsResponse = await fetch(
+          API_BASE + "/api/admin/payments",
+          {
+            method: "GET",
+            cache: "no-store"
+          }
+        );
+
+        if (!paymentsResponse.ok) {
+          throw new Error(
+            "Payments request failed: HTTP " +
+            paymentsResponse.status
+          );
+        }
+
+        const paymentsData =
+          await paymentsResponse.json();
+
+        if (!paymentsData.success) {
+          throw new Error(
+            "Payments API returned an error."
+          );
+        }
+
+        const payments =
+          paymentsData.payments || [];
+
+
+        if (payments.length === 0) {
+
+          message.className = "message";
+          message.innerHTML =
+            "No transactions found.";
+
+          return;
         }
 
 
-        document.getElementById(
-          "totalPayments"
-        ).textContent =
-          data.stats.total || 0;
+        message.className = "success";
+        message.innerHTML =
+          "✓ " + payments.length +
+          " transaction(s) loaded successfully.";
 
 
-        document.getElementById(
-          "successfulPayments"
-        ).textContent =
-          data.stats.successful || 0;
+        payments.forEach(function(payment) {
 
+          const transaction =
+            document.createElement("div");
 
-        document.getElementById(
-          "pendingPayments"
-        ).textContent =
-          data.stats.pending || 0;
+          transaction.className = "transaction";
 
+          const date =
+            payment.created_at
+              ? new Date(payment.created_at)
+                  .toLocaleString()
+              : "N/A";
 
-        document.getElementById(
-          "failedPayments"
-        ).textContent =
-          data.stats.failed || 0;
+          transaction.innerHTML = `
 
+            <p>
+              <strong>Transaction ID:</strong>
+              ${escapeHtml(payment.id)}
+            </p>
+
+            <p>
+              <strong>Reference:</strong>
+              ${escapeHtml(payment.tx_ref)}
+            </p>
+
+            <p>
+              <strong>Flutterwave ID:</strong>
+              ${escapeHtml(payment.transaction_id)}
+            </p>
+
+            <p>
+              <strong>Customer:</strong>
+              ${escapeHtml(payment.customer_name)}
+            </p>
+
+            <p>
+              <strong>Email:</strong>
+              ${escapeHtml(payment.customer_email)}
+            </p>
+
+            <p>
+              <strong>Phone:</strong>
+              ${escapeHtml(payment.customer_phone)}
+            </p>
+
+            <p>
+              <strong>Amount:</strong>
+              ₦${escapeHtml(payment.amount)}
+            </p>
+
+            <p>
+              <strong>Currency:</strong>
+              ${escapeHtml(payment.currency)}
+            </p>
+
+            <p>
+              <strong>Status:</strong>
+              <span class="status">
+                ${escapeHtml(payment.status)}
+              </span>
+            </p>
+
+            <p>
+              <strong>Date:</strong>
+              ${escapeHtml(date)}
+            </p>
+
+          `;
+
+          transactionsList.appendChild(transaction);
+
+        });
 
       } catch (error) {
 
-        console.error(
-          "Stats error:",
-          error
-        );
+        console.error(error);
+
+        message.className = "error";
+
+        message.innerHTML =
+          "Unable to load dashboard data.<br><br>" +
+          escapeHtml(error.message);
 
       }
-
     }
 
 
-    // ===============================
-    // LOAD TRANSACTIONS
-    // ===============================
+    function escapeHtml(value) {
 
-    async function loadTransactions() {
+      if (value === null ||
+          value === undefined) {
+        return "";
+      }
 
-      const list =
-        document.getElementById(
-          "transactionList"
-        );
-
-
-      list.innerHTML =
-        "Loading transactions...";
-
-
-      try {
-
-        const response =
-          await fetch(
-            BACKEND_URL +
-            "/api/admin/payments"
-          );
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
 
 
-        const data =
-          await response.json();
+    loadDashboard();
 
+  </script>
 
-        if (!data.success) {
-
-          throw new Error(
-            "Unable to load payments"
-          );
-
-        }
-
-
-        if (
-          !data.payments ||
-          data.payments.length === 0
-        ) {
-
-          list.innerHTML =
-            "No transactions found.";
-
-         
+</body>
+</html>
