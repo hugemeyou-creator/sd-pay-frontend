@@ -461,7 +461,6 @@ async function login() {
 
   try {
 
-
     const response =
       await fetch(
 
@@ -515,28 +514,20 @@ async function login() {
     }
 
 
-    /* HIDE LOGIN */
-
     document.getElementById(
       "loginPage"
     ).style.display = "none";
 
-
-    /* SHOW DASHBOARD */
 
     document.getElementById(
       "dashboard"
     ).style.display = "block";
 
 
-    /* CLEAR PASSWORD */
-
     document.getElementById(
       "password"
     ).value = "";
 
-
-    /* LOAD DASHBOARD */
 
     await loadDashboard();
 
@@ -592,9 +583,7 @@ async function loadDashboard() {
   try {
 
 
-    /* ===============================
-       STATS
-    =============================== */
+    /* STATS */
 
     const statsResponse =
       await fetch(
@@ -651,10 +640,6 @@ async function loadDashboard() {
     }
 
 
-    /* IMPORTANT:
-       STATS ARE INSIDE statsData.stats
-    */
-
     const stats =
       statsData.stats;
 
@@ -683,9 +668,7 @@ async function loadDashboard() {
       stats.failed || 0;
 
 
-    /* ===============================
-       PAYMENTS
-    =============================== */
+    /* PAYMENTS */
 
     const paymentsResponse =
       await fetch(
@@ -742,22 +725,8 @@ async function loadDashboard() {
     }
 
 
-    /* IMPORTANT:
-       PAYMENTS ARE INSIDE paymentsData.payments
-    */
-
     allPayments =
       paymentsData.payments || [];
-
-
-    if (allPayments.length === 0) {
-
-      message.innerHTML =
-        "No transactions found.";
-
-      return;
-
-    }
 
 
     message.className =
@@ -866,9 +835,7 @@ function displayTransactions(
           <strong>
             Transaction ID:
           </strong>
-          ${escapeHtml(
-            payment.id
-          )}
+          ${escapeHtml(payment.id)}
         </p>
 
 
@@ -876,9 +843,7 @@ function displayTransactions(
           <strong>
             Reference:
           </strong>
-          ${escapeHtml(
-            payment.tx_ref
-          )}
+          ${escapeHtml(payment.tx_ref)}
         </p>
 
 
@@ -886,9 +851,7 @@ function displayTransactions(
           <strong>
             Flutterwave ID:
           </strong>
-          ${escapeHtml(
-            payment.transaction_id
-          )}
+          ${escapeHtml(payment.transaction_id)}
         </p>
 
 
@@ -896,9 +859,7 @@ function displayTransactions(
           <strong>
             Customer:
           </strong>
-          ${escapeHtml(
-            payment.customer_name
-          )}
+          ${escapeHtml(payment.customer_name)}
         </p>
 
 
@@ -906,9 +867,7 @@ function displayTransactions(
           <strong>
             Email:
           </strong>
-          ${escapeHtml(
-            payment.customer_email
-          )}
+          ${escapeHtml(payment.customer_email)}
         </p>
 
 
@@ -916,9 +875,7 @@ function displayTransactions(
           <strong>
             Phone:
           </strong>
-          ${escapeHtml(
-            payment.customer_phone
-          )}
+          ${escapeHtml(payment.customer_phone)}
         </p>
 
 
@@ -926,9 +883,7 @@ function displayTransactions(
           <strong>
             Amount:
           </strong>
-          ₦${escapeHtml(
-            payment.amount
-          )}
+          ₦${escapeHtml(payment.amount)}
         </p>
 
 
@@ -936,9 +891,7 @@ function displayTransactions(
           <strong>
             Currency:
           </strong>
-          ${escapeHtml(
-            payment.currency
-          )}
+          ${escapeHtml(payment.currency)}
         </p>
 
 
@@ -948,9 +901,7 @@ function displayTransactions(
           </strong>
 
           <span class="status">
-            ${escapeHtml(
-              payment.status
-            )}
+            ${escapeHtml(payment.status)}
           </span>
 
         </p>
@@ -960,9 +911,7 @@ function displayTransactions(
           <strong>
             Date:
           </strong>
-          ${escapeHtml(
-            date
-          )}
+          ${escapeHtml(date)}
         </p>
 
       `;
@@ -992,7 +941,23 @@ function searchTransactions() {
       .toLowerCase();
 
 
+  const message =
+    document.getElementById(
+      "message"
+    );
+
+
+  /* EMPTY SEARCH */
+
   if (!search) {
+
+    message.className =
+      "success";
+
+    message.innerHTML =
+      "✓ " +
+      allPayments.length +
+      " transaction(s) loaded successfully.";
 
     displayTransactions(
       allPayments
@@ -1003,31 +968,23 @@ function searchTransactions() {
   }
 
 
+  /* FILTER */
+
   const filtered =
     allPayments.filter(
       function(payment) {
 
-
         const searchableText = [
 
           payment.id,
-
           payment.tx_ref,
-
           payment.transaction_id,
-
           payment.customer_name,
-
           payment.customer_email,
-
           payment.customer_phone,
-
           payment.amount,
-
           payment.currency,
-
           payment.status,
-
           payment.created_at
 
         ]
@@ -1049,6 +1006,36 @@ function searchTransactions() {
 
       }
     );
+
+
+  /* UPDATE MESSAGE */
+
+  if (filtered.length === 0) {
+
+    message.className =
+      "error";
+
+    message.innerHTML =
+      "❌ No matching transactions found.";
+
+  } else {
+
+    message.className =
+      "success";
+
+    const word =
+      filtered.length === 1
+        ? "transaction"
+        : "transactions";
+
+    message.innerHTML =
+      "✓ " +
+      filtered.length +
+      " matching " +
+      word +
+      " found.";
+
+  }
 
 
   displayTransactions(
@@ -1125,33 +1112,13 @@ function escapeHtml(value) {
 
   return String(value)
 
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-
-    .replace(
-      /</g,
-      "&lt;"
-    )
-
-    .replace(
-      />/g,
-      "&gt;"
-    )
-
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-
-    .replace(
-      /'/g,
-      "&#039;"
-    );
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 
 }
-
 
 </script>
 
