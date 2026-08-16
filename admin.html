@@ -13,194 +13,240 @@
 
     body {
       margin: 0;
+      padding: 20px;
       font-family: Arial, sans-serif;
       background: #f4f6f8;
       color: #111827;
     }
 
     .container {
-      width: 94%;
       max-width: 900px;
-      margin: 20px auto;
-    }
-
-    .login {
-      max-width: 450px;
-      margin: 60px auto;
-      background: white;
-      padding: 30px;
-      border-radius: 22px;
-      box-shadow: 0 3px 15px rgba(0,0,0,0.1);
-    }
-
-    .login h1 {
-      margin-top: 0;
-      text-align: center;
-    }
-
-    .login p {
-      text-align: center;
-      color: #6b7280;
-    }
-
-    input {
-      width: 100%;
-      padding: 16px;
-      margin: 10px 0;
-      border: 1px solid #d1d5db;
-      border-radius: 12px;
-      font-size: 16px;
-    }
-
-    button {
-      width: 100%;
-      border: none;
-      background: #111827;
-      color: white;
-      padding: 16px;
-      border-radius: 12px;
-      font-size: 17px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    button:active {
-      opacity: 0.8;
-    }
-
-    .login-error {
-      background: #fee2e2;
-      color: #991b1b;
-      padding: 12px;
-      border-radius: 10px;
-      margin-top: 15px;
-      display: none;
+      margin: auto;
     }
 
     .header {
       background: #111827;
       color: white;
-      padding: 25px;
-      border-radius: 22px;
+      padding: 30px;
+      border-radius: 25px;
       margin-bottom: 25px;
     }
 
     .header h1 {
-      margin: 0 0 8px;
-      font-size: 30px;
+      margin: 0 0 10px;
+      font-size: 36px;
     }
 
     .header p {
-      margin: 0;
+      margin: 0 0 25px;
+      font-size: 20px;
       color: #d1d5db;
     }
 
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 14px 20px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
     .logout {
-      background: #dc2626;
-      margin-top: 15px;
+      width: 100%;
+      background: #ef2029;
+      color: white;
     }
 
     .stats {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
+      gap: 20px;
       margin-bottom: 25px;
     }
 
-    .card {
+    .stat-card {
       background: white;
-      padding: 25px;
-      border-radius: 20px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+      padding: 28px;
+      border-radius: 25px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
     }
 
-    .card h3 {
-      margin: 0 0 15px;
-      color: #6b7280;
-      font-size: 18px;
+    .stat-card h2 {
+      margin: 0 0 25px;
+      color: #4b5563;
+      font-size: 24px;
     }
 
-    .number {
-      font-size: 40px;
+    .stat-card p {
+      margin: 0;
+      font-size: 45px;
       font-weight: bold;
     }
 
-    .transactions {
+    .section {
       background: white;
-      padding: 25px;
-      border-radius: 20px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+      padding: 30px;
+      border-radius: 25px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
     }
 
-    .transactions h2 {
+    .section h2 {
       margin-top: 0;
-      font-size: 28px;
-    }
-
-    .transaction {
-      border: 1px solid #e5e7eb;
-      border-radius: 15px;
-      padding: 18px;
-      margin-bottom: 15px;
-      background: #fafafa;
-    }
-
-    .transaction p {
-      margin: 8px 0;
-      font-size: 15px;
-      word-break: break-word;
-    }
-
-    .status {
-      display: inline-block;
-      padding: 6px 12px;
-      border-radius: 20px;
-      background: #dcfce7;
-      color: #166534;
-      font-weight: bold;
-      text-transform: capitalize;
-    }
-
-    .refresh {
-      margin-top: 15px;
+      font-size: 34px;
     }
 
     .message {
-      text-align: center;
-      padding: 25px 10px;
-      color: #6b7280;
-      font-size: 17px;
-    }
-
-    .error {
-      background: #fee2e2;
-      color: #991b1b;
-      padding: 15px;
-      border-radius: 12px;
-      margin-bottom: 15px;
-      word-break: break-word;
+      padding: 18px;
+      border-radius: 18px;
+      margin-bottom: 25px;
+      font-size: 18px;
     }
 
     .success {
       background: #dcfce7;
       color: #166534;
-      padding: 15px;
-      border-radius: 12px;
-      margin-bottom: 15px;
     }
 
-    #dashboard {
-      display: none;
+    .error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 17px;
+      border: 2px solid #d1d5db;
+      border-radius: 15px;
+      font-size: 17px;
+      margin-bottom: 25px;
+      outline: none;
+    }
+
+    .search-box:focus {
+      border-color: #111827;
+    }
+
+    .transaction {
+      border: 2px solid #e5e7eb;
+      border-radius: 22px;
+      padding: 25px;
+      margin-bottom: 20px;
+      background: #fff;
+    }
+
+    .transaction p {
+      margin: 12px 0;
+      font-size: 18px;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+
+    .transaction strong {
+      color: #111827;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-weight: bold;
+    }
+
+    .status-successful {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status-pending {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .status-failed {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 25px;
+      color: #6b7280;
+      font-size: 18px;
+    }
+
+    .refresh {
+      width: 100%;
+      background: #111827;
+      color: white;
+      margin-bottom: 25px;
+    }
+
+    .login-box {
+      max-width: 500px;
+      margin: 60px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 25px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+    }
+
+    .login-box h1 {
+      margin-top: 0;
+      text-align: center;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 16px;
+      margin-bottom: 15px;
+      border: 2px solid #d1d5db;
+      border-radius: 12px;
+      font-size: 17px;
+    }
+
+    .login-box button {
+      width: 100%;
+      background: #111827;
+      color: white;
     }
 
     @media (max-width: 600px) {
-      .stats {
-        grid-template-columns: 1fr 1fr;
+      body {
+        padding: 12px;
       }
 
-      .number {
+      .header {
+        padding: 25px;
+      }
+
+      .header h1 {
         font-size: 34px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+
+      .stat-card {
+        padding: 22px;
+      }
+
+      .stat-card h2 {
+        font-size: 21px;
+      }
+
+      .stat-card p {
+        font-size: 40px;
+      }
+
+      .section {
+        padding: 22px;
+      }
+
+      .transaction p {
+        font-size: 17px;
       }
     }
   </style>
@@ -208,627 +254,649 @@
 
 <body>
 
-  <!-- LOGIN -->
+<div id="app"></div>
 
-  <div id="loginPage" class="container">
+<script>
 
-    <div class="login">
+  /* =========================
+     SD PAY BACKEND
+  ========================= */
 
-      <h1>SD Pay Admin</h1>
-
-      <p>Admin Login</p>
-
-      <input
-        type="text"
-        id="username"
-        placeholder="Admin Username"
-        autocomplete="username"
-      >
-
-      <input
-        type="password"
-        id="password"
-        placeholder="Admin Password"
-        autocomplete="current-password"
-      >
-
-      <button onclick="login()">
-        Login
-      </button>
-
-      <div id="loginError" class="login-error"></div>
-
-    </div>
-
-  </div>
+  const API_URL = "https://sd-pay-backend.onrender.com";
 
 
-  <!-- DASHBOARD -->
+  /* =========================
+     LOGIN
+  ========================= */
 
-  <div id="dashboard" class="container">
+  let username = "";
+  let password = "";
+  let authHeader = "";
 
-    <div class="header">
-
-      <h1>SD Pay Admin</h1>
-
-      <p>
-        Payment Management Dashboard
-      </p>
-
-      <button
-        class="logout"
-        onclick="logout()"
-      >
-        Logout
-      </button>
-
-    </div>
+  let allTransactions = [];
 
 
-    <div class="stats">
+  function showLogin() {
 
-      <div class="card">
-        <h3>Total Payments</h3>
-        <div class="number" id="total">0</div>
+    document.getElementById("app").innerHTML = `
+      <div class="login-box">
+
+        <h1>SD Pay Admin</h1>
+
+        <p style="text-align:center;color:#6b7280;">
+          Secure Admin Login
+        </p>
+
+        <input
+          type="text"
+          id="username"
+          placeholder="Admin Username"
+          autocomplete="username"
+        >
+
+        <input
+          type="password"
+          id="password"
+          placeholder="Admin Password"
+          autocomplete="current-password"
+        >
+
+        <button onclick="login()">
+          Login
+        </button>
+
+        <div id="loginMessage" style="margin-top:20px;"></div>
+
       </div>
+    `;
+  }
 
-      <div class="card">
-        <h3>Successful</h3>
-        <div class="number" id="successful">0</div>
+
+  async function login() {
+
+    username = document.getElementById("username").value.trim();
+    password = document.getElementById("password").value;
+
+    if (!username || !password) {
+
+      document.getElementById("loginMessage").innerHTML = `
+        <div class="message error">
+          Please enter your username and password.
+        </div>
+      `;
+
+      return;
+    }
+
+    authHeader = "Basic " + btoa(username + ":" + password);
+
+    try {
+
+      const response = await fetch(
+        API_URL + "/api/admin/stats",
+        {
+          headers: {
+            "Authorization": authHeader
+          }
+        }
+      );
+
+      if (!response.ok) {
+
+        throw new Error("Invalid login details.");
+
+      }
+
+      showDashboard();
+
+      loadStats();
+
+      loadTransactions();
+
+    } catch (error) {
+
+      authHeader = "";
+
+      document.getElementById("loginMessage").innerHTML = `
+        <div class="message error">
+          ❌ ${error.message}
+        </div>
+      `;
+    }
+  }
+
+
+  /* =========================
+     DASHBOARD
+  ========================= */
+
+  function showDashboard() {
+
+    document.getElementById("app").innerHTML = `
+
+      <div class="container">
+
+        <div class="header">
+
+          <h1>SD Pay Admin</h1>
+
+          <p>Payment Management Dashboard</p>
+
+          <button class="logout" onclick="logout()">
+            Logout
+          </button>
+
+        </div>
+
+
+        <div class="stats">
+
+          <div class="stat-card">
+            <h2>Total Payments</h2>
+            <p id="totalPayments">0</p>
+          </div>
+
+          <div class="stat-card">
+            <h2>Successful</h2>
+            <p id="successfulPayments">0</p>
+          </div>
+
+          <div class="stat-card">
+            <h2>Pending</h2>
+            <p id="pendingPayments">0</p>
+          </div>
+
+          <div class="stat-card">
+            <h2>Failed</h2>
+            <p id="failedPayments">0</p>
+          </div>
+
+        </div>
+
+
+        <div class="section">
+
+          <h2>Transactions</h2>
+
+          <button class="refresh" onclick="refreshDashboard()">
+            🔄 Refresh Transactions
+          </button>
+
+          <input
+            type="text"
+            id="searchInput"
+            class="search-box"
+            placeholder="🔎 Search by name, phone, email, reference, ID, status..."
+            oninput="searchTransactions()"
+          >
+
+          <div id="transactionMessage"></div>
+
+          <div id="transactions">
+            Loading transactions...
+          </div>
+
+        </div>
+
       </div>
-
-      <div class="card">
-        <h3>Pending</h3>
-        <div class="number" id="pending">0</div>
-      </div>
-
-      <div class="card">
-        <h3>Failed</h3>
-        <div class="number" id="failed">0</div>
-      </div>
-
-    </div>
+    `;
+  }
 
 
-    <div class="transactions">
+  /* =========================
+     LOAD STATISTICS
+  ========================= */
 
-      <h2>Transactions</h2>
+  async function loadStats() {
 
-      <div id="message" class="message">
-        Loading transactions...
-      </div>
+    try {
 
-      <div id="transactionsList"></div>
+      const response = await fetch(
+        API_URL + "/api/admin/stats",
+        {
+          headers: {
+            "Authorization": authHeader
+          }
+        }
+      );
 
-      <button
-        class="refresh"
-        onclick="loadDashboard()"
-      >
-        Refresh Transactions
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <script>
-
-    // ===============================
-    // LIVE BACKEND
-    // ===============================
-
-    const API_BASE =
-      "https://sd-pay-backend-1.onrender.com";
-
-
-    // Credentials stay only in memory.
-    // They are NOT saved in localStorage.
-
-    let adminAuth = "";
-
-
-    // ===============================
-    // LOGIN
-    // ===============================
-
-    async function login() {
-
-      const username =
-        document.getElementById("username").value.trim();
-
-      const password =
-        document.getElementById("password").value;
-
-      const loginError =
-        document.getElementById("loginError");
-
-
-      loginError.style.display = "none";
-
-
-      if (!username || !password) {
-
-        loginError.textContent =
-          "Please enter your username and password.";
-
-        loginError.style.display = "block";
-
+      if (response.status === 401) {
+        logout();
         return;
       }
 
-
-      adminAuth =
-        "Basic " +
-        btoa(username + ":" + password);
-
-
-      try {
-
-        const response =
-          await fetch(
-            API_BASE + "/api/admin/stats",
-            {
-              method: "GET",
-              headers: {
-                "Authorization": adminAuth
-              },
-              cache: "no-store"
-            }
-          );
-
-
-        if (response.status === 401) {
-
-          throw new Error(
-            "Invalid admin username or password."
-          );
-
-        }
-
-
-        if (!response.ok) {
-
-          throw new Error(
-            "Login failed. HTTP " +
-            response.status
-          );
-
-        }
-
-
-        const data =
-          await response.json();
-
-
-        if (!data.success) {
-
-          throw new Error(
-            "Unable to verify admin account."
-          );
-
-        }
-
-
-        // Hide login
-
-        document.getElementById(
-          "loginPage"
-        ).style.display = "none";
-
-
-        // Show dashboard
-
-        document.getElementById(
-          "dashboard"
-        ).style.display = "block";
-
-
-        // Clear password field
-
-        document.getElementById(
-          "password"
-        ).value = "";
-
-
-        // Load dashboard
-
-        loadDashboard();
-
-
-      } catch (error) {
-
-        adminAuth = "";
-
-        loginError.textContent =
-          error.message;
-
-        loginError.style.display =
-          "block";
-
+      if (!response.ok) {
+        throw new Error("Could not load statistics.");
       }
 
+      const data = await response.json();
+
+      document.getElementById("totalPayments").textContent =
+        data.total ?? data.totalPayments ?? 0;
+
+      document.getElementById("successfulPayments").textContent =
+        data.successful ?? data.successfulPayments ?? 0;
+
+      document.getElementById("pendingPayments").textContent =
+        data.pending ?? data.pendingPayments ?? 0;
+
+      document.getElementById("failedPayments").textContent =
+        data.failed ?? data.failedPayments ?? 0;
+
+    } catch (error) {
+
+      console.error(error);
+
     }
+  }
 
 
-    // ===============================
-    // LOAD DASHBOARD
-    // ===============================
+  /* =========================
+     LOAD TRANSACTIONS
+  ========================= */
 
-    async function loadDashboard() {
+  async function loadTransactions() {
 
-      const message =
-        document.getElementById("message");
+    const box = document.getElementById("transactions");
 
-      const transactionsList =
-        document.getElementById(
-          "transactionsList"
-        );
+    box.innerHTML = "Loading transactions...";
 
+    try {
 
-      message.className = "message";
-
-      message.innerHTML =
-        "Loading transactions...";
-
-      transactionsList.innerHTML = "";
-
-
-      try {
-
-        // ===============================
-        // STATS
-        // ===============================
-
-        const statsResponse =
-          await fetch(
-            API_BASE + "/api/admin/stats",
-            {
-              method: "GET",
-              headers: {
-                "Authorization": adminAuth
-              },
-              cache: "no-store"
-            }
-          );
-
-
-        if (statsResponse.status === 401) {
-
-          logout();
-
-          throw new Error(
-            "Admin session expired."
-          );
-
-        }
-
-
-        if (!statsResponse.ok) {
-
-          throw new Error(
-            "Stats request failed: HTTP " +
-            statsResponse.status
-          );
-
-        }
-
-
-        const statsData =
-          await statsResponse.json();
-
-
-        if (!statsData.success) {
-
-          throw new Error(
-            "Stats API returned an error."
-          );
-
-        }
-
-
-        const stats =
-          statsData.stats;
-
-
-        document.getElementById(
-          "total"
-        ).textContent =
-          stats.total || 0;
-
-
-        document.getElementById(
-          "successful"
-        ).textContent =
-          stats.successful || 0;
-
-
-        document.getElementById(
-          "pending"
-        ).textContent =
-          stats.pending || 0;
-
-
-        document.getElementById(
-          "failed"
-        ).textContent =
-          stats.failed || 0;
-
-
-        // ===============================
-        // PAYMENTS
-        // ===============================
-
-        const paymentsResponse =
-          await fetch(
-            API_BASE + "/api/admin/payments",
-            {
-              method: "GET",
-              headers: {
-                "Authorization": adminAuth
-              },
-              cache: "no-store"
-            }
-          );
-
-
-        if (paymentsResponse.status === 401) {
-
-          logout();
-
-          throw new Error(
-            "Admin session expired."
-          );
-
-        }
-
-
-        if (!paymentsResponse.ok) {
-
-          throw new Error(
-            "Payments request failed: HTTP " +
-            paymentsResponse.status
-          );
-
-        }
-
-
-        const paymentsData =
-          await paymentsResponse.json();
-
-
-        if (!paymentsData.success) {
-
-          throw new Error(
-            "Payments API returned an error."
-          );
-
-        }
-
-
-        const payments =
-          paymentsData.payments || [];
-
-
-        if (payments.length === 0) {
-
-          message.className =
-            "message";
-
-          message.innerHTML =
-            "No transactions found.";
-
-          return;
-        }
-
-
-        message.className =
-          "success";
-
-        message.innerHTML =
-          "✓ " +
-          payments.length +
-          " transaction(s) loaded successfully.";
-
-
-        payments.forEach(
-          function(payment) {
-
-            const transaction =
-              document.createElement("div");
-
-            transaction.className =
-              "transaction";
-
-
-            const date =
-              payment.created_at
-                ? new Date(
-                    payment.created_at
-                  ).toLocaleString()
-                : "N/A";
-
-
-            transaction.innerHTML = `
-
-              <p>
-                <strong>Transaction ID:</strong>
-                ${escapeHtml(payment.id)}
-              </p>
-
-              <p>
-                <strong>Reference:</strong>
-                ${escapeHtml(payment.tx_ref)}
-              </p>
-
-              <p>
-                <strong>Flutterwave ID:</strong>
-                ${escapeHtml(payment.transaction_id)}
-              </p>
-
-              <p>
-                <strong>Customer:</strong>
-                ${escapeHtml(payment.customer_name)}
-              </p>
-
-              <p>
-                <strong>Email:</strong>
-                ${escapeHtml(payment.customer_email)}
-              </p>
-
-              <p>
-                <strong>Phone:</strong>
-                ${escapeHtml(payment.customer_phone)}
-              </p>
-
-              <p>
-                <strong>Amount:</strong>
-                ₦${escapeHtml(payment.amount)}
-              </p>
-
-              <p>
-                <strong>Currency:</strong>
-                ${escapeHtml(payment.currency)}
-              </p>
-
-              <p>
-                <strong>Status:</strong>
-
-                <span class="status">
-                  ${escapeHtml(payment.status)}
-                </span>
-
-              </p>
-
-              <p>
-                <strong>Date:</strong>
-                ${escapeHtml(date)}
-              </p>
-
-            `;
-
-
-            transactionsList.appendChild(
-              transaction
-            );
-
+      const response = await fetch(
+        API_URL + "/api/admin/payments",
+        {
+          headers: {
+            "Authorization": authHeader
           }
-        );
-
-
-      } catch (error) {
-
-        console.error(error);
-
-
-        if (!error.message.includes(
-          "session expired"
-        )) {
-
-          message.className =
-            "error";
-
-          message.innerHTML =
-            "Unable to load dashboard data.<br><br>" +
-            escapeHtml(
-              error.message
-            );
-
         }
+      );
 
+      if (response.status === 401) {
+        logout();
+        return;
       }
 
+      if (!response.ok) {
+        throw new Error("Could not load transactions.");
+      }
+
+      const data = await response.json();
+
+      /*
+        Supports either:
+        [ ... ]
+        or
+        { payments: [ ... ] }
+      */
+
+      if (Array.isArray(data)) {
+        allTransactions = data;
+      } else if (Array.isArray(data.payments)) {
+        allTransactions = data.payments;
+      } else if (Array.isArray(data.transactions)) {
+        allTransactions = data.transactions;
+      } else {
+        allTransactions = [];
+      }
+
+      displayTransactions(allTransactions);
+
+      document.getElementById("transactionMessage").innerHTML = `
+        <div class="message success">
+          ✓ ${allTransactions.length} transaction(s) loaded successfully.
+        </div>
+      `;
+
+    } catch (error) {
+
+      box.innerHTML = `
+        <div class="message error">
+          ❌ ${error.message}
+        </div>
+      `;
+
+      document.getElementById("transactionMessage").innerHTML = "";
+    }
+  }
+
+
+  /* =========================
+     DISPLAY TRANSACTIONS
+  ========================= */
+
+  function displayTransactions(transactions) {
+
+    const box = document.getElementById("transactions");
+
+    if (!transactions || transactions.length === 0) {
+
+      box.innerHTML = `
+        <div class="no-results">
+          No transactions found.
+        </div>
+      `;
+
+      return;
     }
 
 
-    // ===============================
-    // LOGOUT
-    // ===============================
+    box.innerHTML = transactions.map(transaction => {
 
-    function logout() {
+      const id =
+        transaction.id ??
+        transaction.transaction_id ??
+        "-";
 
-      adminAuth = "";
+      const reference =
+        transaction.reference ??
+        transaction.tx_ref ??
+        transaction.ref ??
+        "-";
+
+      const flutterwaveId =
+        transaction.flutterwave_id ??
+        transaction.flutterwaveId ??
+        transaction.flw_id ??
+        "-";
+
+      const customer =
+        transaction.customer_name ??
+        transaction.customer ??
+        transaction.name ??
+        "-";
+
+      const email =
+        transaction.email ??
+        "-";
+
+      const phone =
+        transaction.phone ??
+        transaction.customer_phone ??
+        "-";
+
+      const amount =
+        transaction.amount ??
+        "0";
+
+      const currency =
+        transaction.currency ??
+        "NGN";
+
+      const status =
+        transaction.status ??
+        "Unknown";
+
+      const date =
+        transaction.created_at ??
+        transaction.createdAt ??
+        transaction.date ??
+        "-";
 
 
-      document.getElementById(
-        "dashboard"
-      ).style.display = "none";
+      let statusClass = "";
 
+      if (String(status).toLowerCase() === "successful") {
+        statusClass = "status-successful";
+      }
 
-      document.getElementById(
-        "loginPage"
-      ).style.display = "block";
+      if (String(status).toLowerCase() === "pending") {
+        statusClass = "status-pending";
+      }
 
-
-      document.getElementById(
-        "username"
-      ).value = "";
-
-
-      document.getElementById(
-        "password"
-      ).value = "";
-
-
-      document.getElementById(
-        "transactionsList"
-      ).innerHTML = "";
-
-
-      document.getElementById(
-        "message"
-      ).innerHTML =
-        "Loading transactions...";
-
-    }
-
-
-    // ===============================
-    // SECURITY
-    // ===============================
-
-    function escapeHtml(value) {
-
-      if (
-        value === null ||
-        value === undefined
-      ) {
-
-        return "";
-
+      if (String(status).toLowerCase() === "failed") {
+        statusClass = "status-failed";
       }
 
 
-      return String(value)
+      return `
 
-        .replace(
-          /&/g,
-          "&amp;"
-        )
+        <div class="transaction">
 
-        .replace(
-          /</g,
-          "&lt;"
-        )
+          <p>
+            <strong>Transaction ID:</strong>
+            ${escapeHTML(id)}
+          </p>
 
-        .replace(
-          />/g,
-          "&gt;"
-        )
+          <p>
+            <strong>Reference:</strong>
+            ${escapeHTML(reference)}
+          </p>
 
-        .replace(
-          /"/g,
-          "&quot;"
-        )
+          <p>
+            <strong>Flutterwave ID:</strong>
+            ${escapeHTML(flutterwaveId)}
+          </p>
 
-        .replace(
-          /'/g,
-          "&#039;"
-        );
+          <p>
+            <strong>Customer:</strong>
+            ${escapeHTML(customer)}
+          </p>
 
+          <p>
+            <strong>Email:</strong><br>
+            ${escapeHTML(email)}
+          </p>
+
+          <p>
+            <strong>Phone:</strong>
+            ${escapeHTML(phone)}
+          </p>
+
+          <p>
+            <strong>Amount:</strong>
+            ₦${escapeHTML(amount)}
+          </p>
+
+          <p>
+            <strong>Currency:</strong>
+            ${escapeHTML(currency)}
+          </p>
+
+          <p>
+            <strong>Status:</strong>
+
+            <span class="status ${statusClass}">
+              ${escapeHTML(status)}
+            </span>
+          </p>
+
+          <p>
+            <strong>Date:</strong>
+            ${formatDate(date)}
+          </p>
+
+        </div>
+
+      `;
+
+    }).join("");
+  }
+
+
+  /* =========================
+     SEARCH
+  ========================= */
+
+  function searchTransactions() {
+
+    const searchBox =
+      document.getElementById("searchInput");
+
+    const search =
+      searchBox.value.trim().toLowerCase();
+
+
+    if (!search) {
+
+      displayTransactions(allTransactions);
+
+      return;
     }
 
-  </script>
+
+    const filtered =
+      allTransactions.filter(transaction => {
+
+        const searchableText = [
+
+          transaction.id,
+
+          transaction.transaction_id,
+
+          transaction.reference,
+
+          transaction.tx_ref,
+
+          transaction.ref,
+
+          transaction.flutterwave_id,
+
+          transaction.flutterwaveId,
+
+          transaction.flw_id,
+
+          transaction.customer_name,
+
+          transaction.customer,
+
+          transaction.name,
+
+          transaction.email,
+
+          transaction.phone,
+
+          transaction.customer_phone,
+
+          transaction.amount,
+
+          transaction.currency,
+
+          transaction.status,
+
+          transaction.created_at,
+
+          transaction.createdAt,
+
+          transaction.date
+
+        ]
+        .filter(value => value !== undefined && value !== null)
+        .join(" ")
+        .toLowerCase();
+
+
+        return searchableText.includes(search);
+      });
+
+
+    displayTransactions(filtered);
+
+
+    if (filtered.length === 0) {
+
+      document.getElementById("transactions").innerHTML = `
+        <div class="no-results">
+          No transaction matches "${escapeHTML(searchBox.value)}".
+        </div>
+      `;
+    }
+  }
+
+
+  /* =========================
+     REFRESH
+  ========================= */
+
+  async function refreshDashboard() {
+
+    document.getElementById("transactionMessage").innerHTML = `
+      <div class="message success">
+        🔄 Refreshing transactions...
+      </div>
+    `;
+
+    await loadStats();
+
+    await loadTransactions();
+
+    const searchInput =
+      document.getElementById("searchInput");
+
+    if (searchInput) {
+      searchInput.value = "";
+    }
+  }
+
+
+  /* =========================
+     LOGOUT
+  ========================= */
+
+  function logout() {
+
+    username = "";
+    password = "";
+    authHeader = "";
+    allTransactions = [];
+
+    showLogin();
+  }
+
+
+  /* =========================
+     FORMAT DATE
+  ========================= */
+
+  function formatDate(value) {
+
+    if (!value || value === "-") {
+      return "-";
+    }
+
+    try {
+
+      const date = new Date(value);
+
+      if (isNaN(date.getTime())) {
+        return escapeHTML(value);
+      }
+
+      return date.toLocaleString();
+
+    } catch {
+
+      return escapeHTML(value);
+    }
+  }
+
+
+  /* =========================
+     SECURITY
+  ========================= */
+
+  function escapeHTML(value) {
+
+    if (value === undefined || value === null) {
+      return "";
+    }
+
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+
+  /* =========================
+     START
+  ========================= */
+
+  showLogin();
+
+</script>
 
 </body>
 </html>
