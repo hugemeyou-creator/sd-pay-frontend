@@ -26,8 +26,6 @@
       margin: 20px auto;
     }
 
-    /* LOGIN */
-
     .login {
       max-width: 450px;
       margin: 60px auto;
@@ -81,8 +79,6 @@
       display: none;
     }
 
-    /* HEADER */
-
     .header {
       background: #111827;
       color: white;
@@ -105,8 +101,6 @@
       background: #dc2626;
       margin-top: 15px;
     }
-
-    /* STATS */
 
     .stats {
       display: grid;
@@ -132,8 +126,6 @@
       font-size: 40px;
       font-weight: bold;
     }
-
-    /* TRANSACTIONS */
 
     .transactions {
       background: white;
@@ -355,7 +347,6 @@
 
     <h2>Transactions</h2>
 
-
     <input
       type="text"
       id="search"
@@ -364,7 +355,6 @@
       oninput="searchTransactions()"
     >
 
-
     <div
       id="message"
       class="message"
@@ -372,9 +362,7 @@
       Loading transactions...
     </div>
 
-
     <div id="transactionsList"></div>
-
 
     <button
       class="refresh"
@@ -396,7 +384,7 @@
 =============================== */
 
 const API_BASE =
-  "https://sd-pay-backend-1.onrender.com";
+  "https://sd-pay-backend.onrender.com";
 
 
 /* ===============================
@@ -468,7 +456,6 @@ async function login() {
         "/api/admin/stats",
 
         {
-
           method: "GET",
 
           headers: {
@@ -476,9 +463,7 @@ async function login() {
           },
 
           cache: "no-store"
-
         }
-
       );
 
 
@@ -592,7 +577,6 @@ async function loadDashboard() {
         "/api/admin/stats",
 
         {
-
           method: "GET",
 
           headers: {
@@ -600,9 +584,7 @@ async function loadDashboard() {
           },
 
           cache: "no-store"
-
         }
-
       );
 
 
@@ -677,7 +659,6 @@ async function loadDashboard() {
         "/api/admin/payments",
 
         {
-
           method: "GET",
 
           headers: {
@@ -685,9 +666,7 @@ async function loadDashboard() {
           },
 
           cache: "no-store"
-
         }
-
       );
 
 
@@ -947,8 +926,6 @@ function searchTransactions() {
     );
 
 
-  /* EMPTY SEARCH */
-
   if (!search) {
 
     message.className =
@@ -967,8 +944,6 @@ function searchTransactions() {
 
   }
 
-
-  /* FILTER */
 
   const filtered =
     allPayments.filter(
@@ -1007,8 +982,6 @@ function searchTransactions() {
       }
     );
 
-
-  /* UPDATE MESSAGE */
 
   if (filtered.length === 0) {
 
